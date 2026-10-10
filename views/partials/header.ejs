@@ -1,0 +1,31 @@
+<header class="site-header">
+  <div class="container navbar">
+    <a href="/" class="brand">
+      <div class="brand-mark">T</div>
+      <span>TopupGG</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Navigasi utama">
+      <a href="/" class="<%= currentPath === '/' ? 'active' : '' %>">Beranda</a>
+      <a href="#games" class="<%= currentPath.includes('/games') ? 'active' : '' %>">Top-Up</a>
+      <a href="/cek-pesanan" class="<%= currentPath === '/cek-pesanan' ? 'active' : '' %>">Cek Pesanan</a>
+      <a href="/promo" class="<%= currentPath === '/promo' ? 'active' : '' %>">Promo</a>
+      <a href="/bantuan" class="<%= currentPath === '/bantuan' ? 'active' : '' %>">Bantuan</a>
+      <% if (user && user.role === 'admin') { %>
+        <a href="/admin" class="<%= currentPath === '/admin' ? 'active' : '' %>">Admin</a>
+      <% } %>
+    </nav>
+
+    <div class="nav-actions">
+      <% if (user) { %>
+        <a href="/account" class="btn btn-secondary">Akun Saya</a>
+        <form action="/logout" method="POST" style="display:inline;">
+          <button class="btn btn-primary" type="submit">Logout</button>
+        </form>
+      <% } else { %>
+        <a href="/login" class="btn btn-secondary">Masuk</a>
+        <a href="/register" class="btn btn-primary">Daftar</a>
+      <% } %>
+    </div>
+  </div>
+</header>

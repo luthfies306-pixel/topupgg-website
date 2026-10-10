@@ -1,0 +1,39 @@
+<div class="page-shell">
+  <div class="container">
+    <div class="page-card">
+      <h1 style="margin-top: 0;">Akun Saya</h1>
+      <div class="glass-panel">
+        <strong><%= user.name %></strong><br />
+        <span class="meta"><%= user.email %></span>
+      </div>
+
+      <h2>Riwayat transaksi</h2>
+      <% if (orders.length === 0) { %>
+        <div class="glass-panel">Belum ada transaksi.</div>
+      <% } else { %>
+        <table>
+          <thead>
+            <tr>
+              <th>Nomor</th>
+              <th>Game</th>
+              <th>Produk</th>
+              <th>Status</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.forEach((order) => { %>
+              <tr>
+                <td><a href="/orders/<%= order.order_number %>"><%= order.order_number %></a></td>
+                <td><%= order.game %></td>
+                <td><%= order.product_title %></td>
+                <td><span class="status-badge status-<%= order.order_status %>"><%= order.order_status %></span></td>
+                <td>Rp <%= Number(order.total_amount).toLocaleString('id-ID') %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } %>
+    </div>
+  </div>
+</div>

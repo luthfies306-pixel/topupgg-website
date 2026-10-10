@@ -1,0 +1,32 @@
+<div class="page-shell">
+  <div class="container">
+    <div class="page-card">
+      <h1 style="margin-top:0;">Cek Pesanan</h1>
+      <form data-order-check class="form-row" style="margin-bottom:24px;">
+        <div class="form-field">
+          <label for="orderNumber">Nomor Pesanan</label>
+          <input id="orderNumber" name="orderNumber" type="text" value="<%= orderNumber || '' %>" placeholder="TG-..." />
+        </div>
+        <div class="form-field" style="align-self: end;">
+          <button class="btn btn-primary" type="submit">Cari Pesanan</button>
+        </div>
+      </form>
+
+      <% if (currentOrder) { %>
+        <div class="order-summary">
+          <h3>Detail Pesanan</h3>
+          <div class="summary-row"><span>Nomor Pesanan</span><strong><%= currentOrder.order_number %></strong></div>
+          <div class="summary-row"><span>Game</span><strong><%= currentOrder.game %></strong></div>
+          <div class="summary-row"><span>Produk</span><strong><%= currentOrder.product_title %></strong></div>
+          <div class="summary-row"><span>Status</span><strong class="status-badge status-<%= currentOrder.order_status %>"><%= currentOrder.order_status %></strong></div>
+          <div class="summary-row"><span>Pembayaran</span><strong class="status-badge status-<%= currentOrder.payment_status %>"><%= currentOrder.payment_status %></strong></div>
+          <div class="summary-row"><span>Total</span><strong>Rp <%= Number(currentOrder.total_amount).toLocaleString('id-ID') %></strong></div>
+        </div>
+      <% } else if (orderNumber) { %>
+        <div class="glass-panel">
+          <p>Pesanan dengan nomor <strong><%= orderNumber %></strong> tidak ditemukan.</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>

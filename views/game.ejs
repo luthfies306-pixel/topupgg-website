@@ -1,0 +1,123 @@
+<div class="page-shell">
+  <div class="container">
+    <div class="page-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:18px;">
+        <div>
+          <span class="meta">Pilih Produk</span>
+          <h1 style="margin: 8px 0 0;">Top-Up <%= product.game %></h1>
+        </div>
+        <a href="/" class="btn btn-secondary">Kembali</a>
+      </div>
+
+      <div class="game-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 32px;">
+        <% gameProducts.forEach((p) => { %>
+          <div class="game-card">
+            <img src="<%= p.image_url %>" alt="<%= p.title %>" />
+            <div class="card-body">
+              <h3><%= p.title %></h3>
+              <div class="meta"><%= p.nominal %> • <%= p.description %></div>
+              <div class="price-row">
+                <span class="price">Rp <%= Number(p.price).toLocaleString('id-ID') %></span>
+                <button class="btn btn-primary" type="button" onclick="document.getElementById('productId').value = '<%= p.id %>'; document.getElementById('orderSummary').textContent = '<%= p.title %> - Rp <%= Number(p.price).toLocaleString('id-ID') %>'">Pilih</button>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+      <form data-order-form>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="productId">Pilih nominal</label>
+            <select id="productId" name="productId" required>
+              <option value="">-- Pilih produk --</option>
+              <% gameProducts.forEach((p) => { %>
+                <option value="<%= p.id %>"><%= p.title %> - Rp <%= Number(p.price).toLocaleString('id-ID') %></option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="customerName">Nama lengkap</label>
+              <input id="customerName" name="customerName" type="text" placeholder="Nama akun Anda" required value="<%= user ? user.name : '' %>" />
+            </div>
+            <div class="form-field">
+              <label for="customerEmail">Email</label>
+              <input id="customerEmail" name="customerEmail" type="email" placeholder="email@contoh.com" required value="<%= user ? user.email : '' %>" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="userIdGame">User ID</label>
+              <input id="userIdGame" name="userIdGame" type="text" placeholder="Contoh: 123456789" required />
+            </div>
+            <div class="form-field">
+              <label for="zoneId">Zone ID / Server</label>
+              <input id="zoneId" name="zoneId" type="text" placeholder="Opsional" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="paymentMethod">Metode pembayaran</label>
+              <select id="paymentMethod" name="paymentMethod">
+                <option value="QRIS" selected>QRIS</option>
+                <option value="Virtual Account">Virtual Account</option>
+                <option value="E-Wallet">E-Wallet</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="promoCode">Kode promo</label>
+              <input id="promoCode" name="promoCode" type="text" placeholder="TOPUPGG10" />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="notes">Catatan</label>
+            <textarea id="notes" name="notes" placeholder="Opsional"></textarea>
+          </div>
+
+          <div class="order-summary">
+            <h3>Ringkasan Pesanan</h3>
+            <p id="orderSummary" class="meta">Belum memilih produk.</p>
+            <div class="summary-row"><span>Nominal</span><strong id="summaryNominal">Rp 0</strong></div>
+            <div class="summary-row"><span>Diskon</span><strong id="summaryDiscount">Rp 0</strong></div>
+            <div class="summary-row"><span>Total</span><strong id="summaryTotal">Rp 0</strong></div>
+          </div>
+
+          <button class="btn btn-primary" type="submit">Buat Pesanan</button>
+          <div data-order-result"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const optionMap = {};
+  document.querySelectorAll('#productId option').forEach((option) => {
+    if (!option.value) return;
+    const text = option.textContent;
+    const priceMatch = text.match(/Rp\s*([\d.,]+)/);
+    const cleanPrice = priceMatch ? Number(priceMatch[1].replace(/\./g, '').replace(',', '.')) : 0;
+    optionMap[option.value] = cleanPrice;
+  });
+
+  const productId = document.getElementById('productId');
+  const summaryNominal = document.getElementById('summaryNominal');
+  const summaryDiscount = document.getElementById('summaryDiscount');
+  const summaryTotal = document.getElementById('summaryTotal');
+  const orderSummary = document.getElementById('orderSummary');
+
+  productId.addEventListener('change', function () {
+    const value = productId.value;
+    const price = optionMap[value] || 0;
+    const selectedText = productId.options[productId.selectedIndex]?.text || 'Produk belum dipilih';
+    orderSummary.textContent = selectedText;
+    summaryNominal.textContent = `Rp ${price.toLocaleString('id-ID')}`;
+    summaryDiscount.textContent = 'Rp 0';
+    summaryTotal.textContent = `Rp ${price.toLocaleString('id-ID')}`;
+  });
+</script>

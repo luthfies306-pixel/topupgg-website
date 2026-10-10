@@ -1,0 +1,100 @@
+<div class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="kicker">⚡ Top-up game real-time</div>
+      <h1>Top-Up Game <span class="gradient">Profesional</span> Tanpa Ribet.</h1>
+      <p>TopupGG menghadirkan pengalaman top-up aman, cepat, dan modern untuk Mobile Legends, Free Fire, PUBG Mobile, Blood Strike, Honor of Kings, Magic Chess, FC Mobile, dan eFootball.</p>
+      <div class="hero-actions">
+        <a href="#games" class="btn btn-primary">Top-Up Sekarang</a>
+        <a href="/cek-pesanan" class="btn btn-secondary">Cek Pesanan</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-box"><strong>2.7k+</strong><span>Transaksi</span></div>
+        <div class="stat-box"><strong>99.9%</strong><span>Uptime</span></div>
+        <div class="stat-box"><strong>24/7</strong><span>Support</span></div>
+      </div>
+    </div>
+    <div class="showcase-card">
+      <div class="glass-panel">
+        <h3>Order Sample</h3>
+        <div class="game-spotlight">
+          <div class="game-mini">
+            <div class="meta">Mobile Legends</div>
+            <strong>257 Diamonds</strong>
+          </div>
+          <div class="game-mini">
+            <div class="meta">Free Fire</div>
+            <strong>355 Diamonds</strong>
+          </div>
+          <div class="game-mini">
+            <div class="meta">PUBG Mobile</div>
+            <strong>660 UC</strong>
+          </div>
+          <div class="game-mini">
+            <div class="meta">eFootball</div>
+            <strong>1000 Coins</strong>
+          </div>
+        </div>
+      </div>
+      <div class="glass-panel">
+        <div class="meta">Status Pembayaran</div>
+        <div class="price-row">
+          <strong>Mode Aktif</strong>
+          <span class="status-badge status-pending">Sandbox</span>
+        </div>
+        <div class="meta" style="margin-top: 12px;">Transaksi live hanya akan aktif setelah kunci API vendor dan pembayaran dikonfigurasi di server.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="games" class="section container">
+  <div class="section-head">
+    <div>
+      <span>Daftar Game</span>
+      <h2>Pilih game favoritmu</h2>
+    </div>
+    <a href="/cek-pesanan" class="btn btn-secondary">Cek status</a>
+  </div>
+
+  <div class="game-grid">
+    <% games.forEach((game) => { %>
+      <% const first = products.find((p) => p.game === game); %>
+      <a class="game-card" href="/games/<%= first ? first.slug : game.toLowerCase().replace(/\s+/g, '-') %>">
+        <img src="<%= first ? first.image_url : 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80' %>" alt="<%= game %>" />
+        <div class="card-body">
+          <h3><%= game %></h3>
+          <div class="meta">Paket top-up tersedia</div>
+          <div class="price-row">
+            <span class="price">Mulai Rp <%= Number(first ? first.price : 0).toLocaleString('id-ID') %></span>
+            <span class="btn btn-primary">Lihat</span>
+          </div>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <div>
+      <span>Keunggulan</span>
+      <h2>Kenapa pilih TopupGG?</h2>
+    </div>
+  </div>
+
+  <div class="feature-row">
+    <div class="feature-box">
+      <h3>Keamanan Tinggi</h3>
+      <p>Autentikasi pengguna, validasi server-side, dan penyimpanan data yang aman tanpa menyimpan PIN atau kredensial pembayaran.</p>
+    </div>
+    <div class="feature-box">
+      <h3>Proses Cepat</h3>
+      <p>Order dibuat dengan nomor unik, status pembayaran terpantau, dan pengecekan pesanan yang mudah melalui dashboard.</p>
+    </div>
+    <div class="feature-box">
+      <h3>Integrasi Siap Konfigurasi</h3>
+      <p>Pembayaran Midtrans dan supplier dapat dihubungkan melalui variabel lingkungan di server Anda.</p>
+    </div>
+  </div>
+</section>
